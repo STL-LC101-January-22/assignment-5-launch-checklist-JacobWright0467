@@ -27,7 +27,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
   let listName = document.createElement("li");
   listName.appendChild(document.createTextNode(`Name: ${name}`));
-  insertAfter(orderedList, listName);
+  orderedList.insertBefore(listName, orderedList.firstChild);
   
   let listDiameter = document.createElement("li");
   listDiameter.appendChild(document.createTextNode(`Diameter: ${diameter}`));
@@ -38,24 +38,24 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
   insertAfter(listDiameter, listStar);
 
   let listDistance = document.createElement("li");
-  listDistance.appendChild(document.createTextNode(`Distance: ${distance}`));
+  listDistance.appendChild(document.createTextNode(`Distance from Earth: ${distance}`));
   insertAfter(listStar, listDistance);
 
   let listMoons = document.createElement("li");
-  listMoons.appendChild(document.createTextNode(`Moons: ${moons}`));
+  listMoons.appendChild(document.createTextNode(`Number of Moons: ${moons}`));
   insertAfter(listDistance, listMoons);
 
   let listImage = document.createElement("img");
   listImage.setAttribute("src", imageUrl);
-  listImage.setAttribute("width", "200");
-  listImage.setAttribute("height", "100");
-  insertAfter(listMoons, listImage);
+  //listImage.setAttribute("width", "200");
+  //listImage.setAttribute("height", "100");
+  insertAfter(orderedList, listImage);
 
 }
 
 
 function validateInput(testInput) {
-    if (testInput === 'undefined') {
+    if (testInput === '' || testInput === undefined) {
         return 'Empty';
     }
     else if (isNaN(testInput)) {
@@ -74,7 +74,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 
     if (validateInput(pilot) === 'Not a Number') {
         let pilotStatus = document.querySelector("li[id=pilotStatus]");
-        pilotStatus.textContent = `${pilot} ready!`;
+        pilotStatus.textContent = `Pilot ${pilot} is ready for launch`;
         ++flag;
    }
    else {
@@ -82,7 +82,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
    }
    if (validateInput(copilot) === 'Not a Number') {
        let copilotStatus = document.querySelector("li[id=copilotStatus]");
-       copilotStatus.textContent = `${copilot} ready!`;
+       copilotStatus.textContent = `Co-pilot ${copilot} is ready for launch`;
        ++flag;
    }
    else {
@@ -93,9 +93,13 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             let faultyItems = document.querySelector("div[id=faultyItems]");
             faultyItems.style = "visibility: visible";
             let fuelStatus = document.querySelector("li[id=fuelStatus]");
-            fuelStatus.textContent = "There is not enough fuel for the journey";
+            fuelStatus.textContent = "Fuel level too low for launch";
         }
         else { 
+            let faultyItems = document.querySelector("div[id=faultyItems]");
+            faultyItems.style = "visibility: visible";
+            let fuelStatus = document.querySelector("li[id=fuelStatus]");
+            fuelStatus.textContent = "Fuel level high enough for launch";
             ++flag;
         }
    }
@@ -107,9 +111,13 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             let faultyItems = document.querySelector("div[id=faultyItems]");
             faultyItems.style = "visibility: visible";
             let cargoStatus = document.querySelector("li[id=cargoStatus]");
-            cargoStatus.textContent = "Too much mass for shuttle to take off";
+            cargoStatus.textContent = "Cargo mass too heavy for launch";
         }
         else{
+            let faultyItems = document.querySelector("div[id=faultyItems]");
+            faultyItems.style = "visibility: visible";
+            let cargoStatus = document.querySelector("li[id=cargoStatus]");
+            cargoStatus.textContent = "Cargo mass low enough for launch";
             ++flag;
         }
    }
@@ -118,13 +126,13 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
    }
    if (flag == 4) {
         let launchStatus = document.querySelector("h2[id=launchStatus]");
-        launchStatus.textContent = "Shuttle is ready for launch!";
-        launchStatus.style = "color: green; visibility: visible";
+        launchStatus.textContent = "Shuttle is Ready for Launch";
+        launchStatus.style = "color: rgb(65, 159, 106); visibility: visible";
    }
    else {
         let launchStatus = document.querySelector("h2[id=launchStatus]");
-        launchStatus.textContent = "Shuttle not ready for launch";
-        launchStatus.style = "color: red; visibility: visible";
+        launchStatus.textContent = "Shuttle Not Ready for Launch";
+        launchStatus.style = "color: rgb(199, 37, 78); visibility: visible";
     }
 }
 
